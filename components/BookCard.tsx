@@ -56,12 +56,6 @@ export default function BookCard({ id, title, author, price, category, image, de
             <span className="font-serif font-bold text-lg text-[#5E6B5D]">{price}</span>
           </div>
 
-          {description && (
-            <p className="text-xs text-[#2C352E]/80 leading-relaxed line-clamp-2">
-              {description}
-            </p>
-          )}
-
           <div className="pt-3 border-t border-[#5E6B5D]/15 flex items-center justify-between">
             <span className="text-[10px] font-bold uppercase tracking-wider text-[#5E6B5D] flex items-center gap-1.5">
               <Leaf className="w-3.5 h-3.5 text-[#5E6B5D]" /> Distraction-Free EPUB
