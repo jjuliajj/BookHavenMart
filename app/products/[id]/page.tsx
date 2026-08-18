@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AddToCartActions from "@/components/AddToCartActions";
 import BookDescription from "@/components/BookDescription";
-import { getBook } from "@/lib/api";
+import { getBook, formatPrice } from "@/lib/api";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, BookOpen, Layers, User, Tag } from "lucide-react";
@@ -141,7 +141,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
               <div className="bg-paper-beige/60 p-4 rounded-2xl border border-charcoal/10 flex items-center justify-between">
                 <div>
                   <span className="text-[10px] font-manrope font-bold uppercase tracking-widest text-charcoal/40 block">Digital Edition</span>
-                  <span className="text-2xl font-newsreader font-bold text-coral">{book.price || "$0.50"}</span>
+                  <span className="text-2xl font-newsreader font-bold text-coral">{formatPrice(book.price)}</span>
                 </div>
                 <div className="text-right">
                   <span className="text-xs font-manrope font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full inline-flex items-center gap-1">

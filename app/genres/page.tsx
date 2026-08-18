@@ -90,7 +90,7 @@ export default async function GenresPage() {
                   </div>
                 </div>
 
-                {/* Overlapping 9:16 Sample Book Covers */}
+                {/* Overlapping Sample Book Covers */}
                 <div className="flex items-center gap-3 pt-2">
                   <div className="flex -space-x-4 overflow-hidden py-1">
                     {genre.sampleBooks.map((book, idx) => (
@@ -118,8 +118,8 @@ export default async function GenresPage() {
             ))}
           </div>
 
-          {/* Featured Releases Section with 9:16 BookCards */}
-          <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 border border-charcoal/10 shadow-sm space-y-6 pt-8">
+          {/* Featured Releases Section with Spacious Responsive Grid */}
+          <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-6 md:p-8 border border-charcoal/10 shadow-sm space-y-6 pt-8">
             <div className="flex items-center justify-between border-b border-charcoal/10 pb-4">
               <div>
                 <span className="text-[10px] font-manrope font-bold uppercase tracking-[0.2em] text-coral">
@@ -138,7 +138,7 @@ export default async function GenresPage() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
               {books.slice(0, 6).map((book) => (
                 <BookCard
                   key={book.id}

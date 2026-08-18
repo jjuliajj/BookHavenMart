@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookCard from "@/components/BookCard";
-import { getBooks } from "@/lib/api";
+import { getBooks, formatPrice } from "@/lib/api";
 import { getAuthorAvatar } from "@/lib/authorAvatar";
 import Link from "next/link";
 import { Users, BookOpen, ArrowRight, Sparkles, Award } from "lucide-react";
@@ -29,7 +29,7 @@ export default async function AuthorsPage() {
       avatar: getAuthorAvatar(name),
       category: mainCategory,
       count: authorBooks.length,
-      books: authorBooks,
+      books: authorBooks.slice(0, 3), // Show up to 3 books per author
     };
   });
 
@@ -44,78 +44,75 @@ export default async function AuthorsPage() {
           <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-charcoal/10 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
             <div className="space-y-3 max-w-2xl">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-coral/10 text-coral text-xs font-bold rounded-full border border-coral/20 uppercase tracking-widest font-manrope">
-                <Users className="w-3.5 h-3.5" /> The Creators
+                <Sparkles className="w-3.5 h-3.5" /> Curators of Thought
               </div>
               <h1 className="text-4xl md:text-5xl font-newsreader font-bold text-charcoal leading-tight">
                 Featured <span className="text-coral italic font-normal">Authors</span>
               </h1>
               <p className="text-xs md:text-sm font-manrope text-charcoal/60 leading-relaxed">
-                Meet the visionary thinkers, researchers, and essayists shaping contemporary thought and literature in our digital library.
+                Discover the visionary writers, independent scholars, and profound thinkers shaping modern philosophy, literature, and culture.
               </p>
             </div>
 
-            {/* Author Stats Badge */}
+            {/* Total Authors Badge */}
             <div className="bg-gradient-to-br from-charcoal to-slate-900 text-paper-beige px-6 py-5 rounded-2xl border border-charcoal/20 shadow-md flex items-center gap-4 flex-shrink-0">
               <div className="w-10 h-10 rounded-xl bg-coral/20 text-coral flex items-center justify-center font-bold">
-                <Award className="w-5 h-5" />
+                <Users className="w-5 h-5" />
               </div>
               <div>
                 <div className="text-2xl font-newsreader font-bold">{authorData.length} Authors</div>
                 <div className="text-[10px] font-manrope font-semibold text-paper-beige/40 uppercase tracking-widest">
-                  {books.length} Published Volumes
+                  {books.length} Library Titles
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Author Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Authors Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {authorData.map((author) => (
               <div
                 key={author.name}
                 className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 border border-charcoal/10 shadow-xs hover:shadow-xl hover:border-coral/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group space-y-6"
               >
-                <div className="space-y-5">
-                  {/* Author Portrait Frame */}
-                  <div className="aspect-[4/3] rounded-2xl overflow-hidden relative border border-charcoal/10 shadow-sm bg-charcoal/5">
-                    <img
-                      src={author.avatar}
-                      alt={author.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent" />
-                    
-                    <div className="absolute bottom-3 left-3 right-3 flex justify-between items-end">
-                      <span className="text-[10px] font-manrope font-bold uppercase tracking-wider text-white/90 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full border border-white/20">
-                        {author.category}
-                      </span>
-                      <span className="text-xs font-manrope font-bold text-coral bg-paper-beige px-2.5 py-0.5 rounded-full shadow-sm">
-                        {author.count} {author.count === 1 ? 'Book' : 'Books'}
-                      </span>
+                <div className="space-y-4">
+                  {/* Author Header with Avatar */}
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-2xl overflow-hidden bg-charcoal/5 border-2 border-coral/30 shadow-sm flex-shrink-0 group-hover:scale-105 transition-transform duration-300">
+                      <img
+                        src={author.avatar}
+                        alt={author.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="min-w-0">
+                      <h2 className="font-newsreader text-xl font-bold text-charcoal group-hover:text-coral transition-colors truncate">
+                        {author.name}
+                      </h2>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="text-[10px] font-manrope font-bold text-coral bg-coral/10 px-2.5 py-0.5 rounded-full border border-coral/20 uppercase tracking-wider">
+                          {author.category}
+                        </span>
+                        <span className="text-[10px] font-manrope font-semibold text-charcoal/40">
+                          {author.count} {author.count === 1 ? 'Title' : 'Titles'}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Author Bio Section */}
-                  <div>
-                    <h2 className="font-newsreader text-2xl font-bold text-charcoal group-hover:text-coral transition-colors">
-                      {author.name}
-                    </h2>
-                  </div>
-
-                  {/* Published Titles List */}
-                  <div className="pt-3 border-t border-charcoal/10 space-y-2">
-                    <span className="text-[10px] font-manrope font-bold uppercase tracking-widest text-charcoal/40 block">
-                      Works in Library ({author.count})
-                    </span>
-                    
-                    <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
+                  {/* Authored Books Mini Showcase (9:16 Aspect) */}
+                  <div className="space-y-2 pt-2 border-t border-charcoal/10">
+                    <div className="text-[10px] font-manrope font-bold uppercase tracking-widest text-charcoal/40">
+                      Top Published Titles
+                    </div>
+                    <div className="space-y-1.5">
                       {author.books.map((book) => (
                         <Link
                           key={book.id}
                           href={`/products/${book.id}`}
-                          className="flex items-center gap-3 p-2 rounded-xl hover:bg-coral/5 transition-colors group/book border border-transparent hover:border-coral/20"
+                          className="flex items-center gap-3 p-1.5 rounded-xl hover:bg-paper-beige/80 transition-colors group/book"
                         >
-                          <div className="w-7 aspect-[9/16] bg-charcoal/10 rounded overflow-hidden flex-shrink-0 border border-charcoal/10">
+                          <div className="w-6 aspect-[9/16] bg-charcoal/10 rounded overflow-hidden flex-shrink-0 border border-charcoal/10">
                             {book.cover_url ? (
                               <img src={book.cover_url} alt={book.title} className="w-full h-full object-cover" />
                             ) : (
@@ -129,7 +126,7 @@ export default async function AuthorsPage() {
                               {book.title}
                             </div>
                             <div className="text-[10px] font-manrope text-charcoal/40 font-semibold">
-                              {book.price}
+                              {formatPrice(book.price)}
                             </div>
                           </div>
                           <ArrowRight className="w-3 h-3 text-charcoal/30 group-hover/book:text-coral group-hover/book:translate-x-0.5 transition-all flex-shrink-0" />
@@ -152,7 +149,7 @@ export default async function AuthorsPage() {
           </div>
 
           {/* Featured Works Section */}
-          <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 border border-charcoal/10 shadow-sm space-y-6 pt-8">
+          <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-6 md:p-8 border border-charcoal/10 shadow-sm space-y-6 pt-8">
             <div className="flex items-center justify-between border-b border-charcoal/10 pb-4">
               <div>
                 <span className="text-[10px] font-manrope font-bold uppercase tracking-[0.2em] text-coral">
@@ -171,7 +168,7 @@ export default async function AuthorsPage() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
               {books.slice(0, 6).map((book) => (
                 <BookCard
                   key={book.id}

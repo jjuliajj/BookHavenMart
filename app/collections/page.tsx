@@ -33,7 +33,6 @@ export default async function CollectionsPage({
     );
   }
 
-
   return (
     <main className="flex min-h-screen flex-col bg-[#F4EFEA] text-[#2C352E] font-sans">
       <Navbar />
@@ -59,7 +58,7 @@ export default async function CollectionsPage({
             <a
               href="/collections"
               className={`px-5 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition-all ${
-                !genre ? "bg-[#5E6B5D] text-[#FAF8F5]" : "bg-[#FAF8F5] text-[#2C352E] border border-[#5E6B5D]/20 hover:border-[#5E6B5D]"
+                !targetCategory ? "bg-[#5E6B5D] text-[#FAF8F5]" : "bg-[#FAF8F5] text-[#2C352E] border border-[#5E6B5D]/20 hover:border-[#5E6B5D]"
               }`}
             >
               All Shelves ({books.length})
@@ -69,7 +68,7 @@ export default async function CollectionsPage({
                 key={cat}
                 href={`/collections?genre=${encodeURIComponent(cat)}`}
                 className={`px-5 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition-all ${
-                  genre?.toLowerCase() === cat.toLowerCase()
+                  targetCategory?.toLowerCase() === cat.toLowerCase()
                     ? "bg-[#5E6B5D] text-[#FAF8F5]"
                     : "bg-[#FAF8F5] text-[#2C352E] border border-[#5E6B5D]/20 hover:border-[#5E6B5D]"
                 }`}
@@ -84,6 +83,14 @@ export default async function CollectionsPage({
             {filteredBooks.map((book) => (
               <BookCard key={book.id} {...book} image={book.cover_url} description={book.description} />
             ))}
+            {filteredBooks.length === 0 && (
+              <div className="bg-[#FAF8F5] p-12 rounded-3xl text-center border border-[#5E6B5D]/20">
+                <p className="text-[#2C352E] font-serif text-lg">No books found in this category.</p>
+                <a href="/collections" className="text-xs font-bold text-[#5E6B5D] uppercase mt-2 inline-block hover:underline">
+                  View all books
+                </a>
+              </div>
+            )}
           </div>
 
         </div>

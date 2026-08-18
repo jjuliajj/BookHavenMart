@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
 import { useCart } from "@/lib/CartContext";
+import { formatPrice } from "@/lib/api";
 import { 
   ArrowLeft, 
   CreditCard, 
@@ -171,7 +172,7 @@ export default function CheckoutPage() {
                         <div className="text-paper-beige/40 text-[10px] truncate">{item.author}</div>
                       </div>
                       <div className="text-xs font-bold text-coral whitespace-nowrap px-1">
-                        {item.price}
+                        {formatPrice(item.price)}
                       </div>
                     </div>
                   ))}

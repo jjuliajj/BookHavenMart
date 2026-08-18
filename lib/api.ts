@@ -19,6 +19,15 @@ export interface Book {
   created_at?: string;
 }
 
+export function formatPrice(price: string | number | undefined): string {
+  if (!price && price !== 0) return "$0.50";
+  const str = String(price).trim();
+  if (str.startsWith("$")) return str;
+  const clean = str.replace(/[^0-9.]/g, "");
+  if (!clean) return "$0.50";
+  return `$${clean}`;
+}
+
 export async function getBooks(): Promise<Book[]> {
   try {
     const res = await fetch(`${API_BASE_URL}/books?site=bookhavenmart`, { next: { revalidate: 60 } });
@@ -34,7 +43,6 @@ export async function getBooks(): Promise<Book[]> {
     return [];
   }
 }
-
 
 export async function getBook(id: string): Promise<Book | null> {
   try {
